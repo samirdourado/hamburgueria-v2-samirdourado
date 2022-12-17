@@ -1,12 +1,17 @@
-import { useState } from 'react'
+
+import { CartProvider } from './contexts/cartContext'
+import { UserProvider } from './contexts/userContext'
+import { RoutesCentral } from './routes'
 
 function App() {
   
 
   return (
-    <div>
-      
-    </div>
+    <UserProvider>
+      <CartProvider>
+        <RoutesCentral/>
+      </CartProvider>
+    </UserProvider>
   )
 }
 
