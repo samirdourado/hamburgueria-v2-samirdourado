@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify";
 import { iLoginFormValues } from "../pages/login";
@@ -9,8 +9,11 @@ import { api } from "../services/api"
 interface iUserContext {    
     loginUser: (formData: iLoginFormValues) => Promise<void>
     registerNewUser: (formData: iRegisterFormValues) => Promise<void>
+    logoutUser: () => void  
     user: iPerson
-    loading: boolean;
+    products: iProducts
+    loading: boolean
+    
 }
 
 export const UserContext = createContext({} as iUserContext)
@@ -34,13 +37,23 @@ interface iRequestError {
     error: string;
 }
 
+interface iProducts{
+    category: string;
+    id: number;
+    img: string;
+    name: string;
+    price: number;
+    [element: string | number]: any;    
+}
+
 export const UserProvider = ({ children }:iUserProviderProps) => {
 
     const navigate = useNavigate()
 
     const [loading, setLoading] = useState(false)
     const [user, setUser] = useState({} as iPerson)
-    
+    const [products, setProducts] = useState({} as iProducts)
+
     const registerNewUser = async (formData: iLoginFormValues) => {
         try {
             setLoading(true)
@@ -75,9 +88,44 @@ export const UserProvider = ({ children }:iUserProviderProps) => {
             setLoading(false)
         }
     }
+
+    const logoutUser = () => {
+        localStorage.removeItem("@BKSD")
+        toast.warn("Volte Logo.")
+        navigate("/")
+    }
+
+    useEffect(() => {
+        const token = localStorage.getItem("@BKSD")
+        
+        if (token) {
+            const getApi = async () => {
+                try {
+                    setLoading(true)                    
+                    const response = await api.get<iProducts>(`products`, {
+                        headers: {
+                            "Authorization": `Bearer ${token}`
+                        }
+                    })                    
+                    setProducts(response.data)
+                } catch (error) {
+                    console.log(error)
+                } finally {
+                    setLoading(false)
+                }
+            }
+            getApi()
+        }
+    }, [])
+
+    
+
+    // const renderCards = async () => {
+
+    // }
     
     return(
-        <UserContext.Provider value={{user, loginUser, loading, registerNewUser}}>
+        <UserContext.Provider value={{user, loginUser, loading, registerNewUser, logoutUser, products}}>
             { children }
         </UserContext.Provider>
     )
