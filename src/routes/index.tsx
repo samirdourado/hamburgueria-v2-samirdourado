@@ -5,7 +5,6 @@ import { NotFoundPage } from "../pages/notFound"
 import { RegisterPage } from "../pages/register"
 
 export const RoutesCentral = () => {
-
     return(
         <Routes>
             <Route path="/" element={<LoginPage/>}/>
