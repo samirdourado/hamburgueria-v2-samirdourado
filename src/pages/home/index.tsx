@@ -29,7 +29,7 @@ export const HomePage = () => {
             <header>
                 <img src={logo}></img>
                 <div>
-                    <form onSubmit={(evt) => searchProducts()}>
+                    <form noValidate onSubmit={(evt) => searchProducts(evt)}>
                         <input id="searchArea" type={"text"} placeholder="Pesquise aqui."/>
                         <button type="submit">Pesquisar</button>
                     </form>

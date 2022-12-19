@@ -5,19 +5,25 @@ import { api } from "../services/api";
 import { UserContext } from "./userContext";
 
 interface iCartContext{
-    // searchProducts: (evt: iCartProducts) => void
-    // addProductToCart: (productData: iCartProducts) => void
-    // removeProductFromCart: (productID: iCartProducts) => void
-    // removeAllProductsFromCart: (i: iCartProducts) => void
-    // calculator: (prices: any) => any
-    // counterAdd: (actualSale: any, dataId: any) => void
-    // counterSub: (actualSale: any, dataId: any) => void
-    // currentSale: iCartProducts
+    searchProducts: (evt: iCartProducts) => void
+    addProductToCart: (productData: iCartProducts) => void    
+    removeProductFromCart: (productID: iCartProducts) => void
+    removeAllProductsFromCart: (i: iCartProducts) => void
+    calculator: (prices: iCartProducts) => any
+    counterAdd: (actualSale: iCartProducts, dataId: iCartProducts) => void
+    counterSub: (actualSale: iCartProducts, dataId: iCartProducts) => void
+    
+    // filteredProducts: iCartProducts
+    filteredProducts: iCartProducts | []
+    setFilteredProducts: React.Dispatch<React.SetStateAction<iCartProducts | []>>
+
+    currentSale: iCartProducts | []
+    setCurrentSale: React.Dispatch<React.SetStateAction<iCartProducts | []>>
+    
     // filteredProducts: iCartProducts
     // search: iCartProducts
     
-    // setSearch: React.Dispatch<React.SetStateAction<iCartProducts>>
-    // setCurrentSale: React.Dispatch<React.SetStateAction<iCartProducts[]>>
+    // setSearch: React.Dispatch<React.SetStateAction<iCartProducts>>    
 }
 
 export const CartContext = createContext({} as iCartContext);
@@ -46,8 +52,8 @@ export const CartProvider = ({ children }:iCartProviderProps) => {
 
     // const [modal, setModal] = useState(false)
     // const [loading, setLoading] = useState(false)
-    const [currentSale, setCurrentSale] = useState([] as iCartProducts[])
-    const [filteredProducts, setFilteredProducts] = useState([] as iCartProducts[])
+    const [currentSale, setCurrentSale] = useState<iCartProducts | []>([] as unknown as iCartProducts)
+    const [filteredProducts, setFilteredProducts] = useState<iCartProducts | []>([] as unknown as iCartProducts)
     const [search, setSearch] = useState("")
     
 
@@ -65,12 +71,12 @@ export const CartProvider = ({ children }:iCartProviderProps) => {
         }
       }, [search])
 
-    const searchProducts = (evt) => {
+    const searchProducts = (evt: iCartProducts) => {
         {console.log(evt)}
         evt.preventDefault()
         const seachedValue = evt.target.children[0].value.toLowerCase()
         console.log(seachedValue)
-        const newList = products.filter(product =>      
+        const newList = products.filter((product: { name: string; category: string; }) =>      
             product.name.toLowerCase().includes(seachedValue)
             || product.category.toLowerCase().includes(seachedValue)
             )
@@ -86,12 +92,12 @@ export const CartProvider = ({ children }:iCartProviderProps) => {
         return setFilteredProducts(newList)
     }
 
-    const calculator = (prices) => {
-        return prices.reduce((acc, act) => {return acc + act.price * act.count}, 0)
+    const calculator = (prices: iCartProducts) => {
+        return prices.reduce((acc: number, act: { price: number; count: number; }) => {return acc + act.price * act.count}, 0)
     }
 
     const addProductToCart = (productData: iCartProducts) => {        
-        if (!currentSale.some(data => data.id === productData.id)) {
+        if (!currentSale.some((data: { id: number; }) => data.id === productData.id)) {
             productData.count = 1
             setCurrentSale([...currentSale, productData])
             toast.success(`Produto adicionado`)
@@ -101,28 +107,28 @@ export const CartProvider = ({ children }:iCartProviderProps) => {
     }
 
     const removeProductFromCart = (productID: iCartProducts) => {
-        const newList = currentSale.filter((data) => data.id !== productID)
+        const newList = currentSale.filter((data: { id: iCartProducts; }) => data.id !== productID)
         setCurrentSale(newList)
         toast.error(`Produto removido.`)
     }
 
     const removeAllProductsFromCart = (i: iCartProducts) => {
-        const newList = currentSale.filter((data) => data === i)
+        const newList = currentSale.filter((data: iCartProducts) => data === i)
         setCurrentSale(newList)
         toast.error(`Carrinho vazio, adicione novos produtos para continuar.`)
     }
     
 
-    const counterAdd = (actualSale, dataId) => {
-        const cart = actualSale.find(productInCart => productInCart.id === dataId)
+    const counterAdd = (actualSale: iCartProducts, dataId: iCartProducts) => {
+        const cart = actualSale.find((productInCart: { id: iCartProducts; }) => productInCart.id === dataId)
         if (actualSale.includes(cart)) {
             cart.count ++
             setCurrentSale([...currentSale])
         }     
     }
 
-    const counterSub = (actualSale, dataId) => {
-        const cart = actualSale.find(productInCart => productInCart.id === dataId)
+    const counterSub = (actualSale: iCartProducts, dataId: iCartProducts) => {
+        const cart = actualSale.find((productInCart: { id: iCartProducts; }) => productInCart.id === dataId)
         if (actualSale.includes(cart)) {
             cart.count --
             setCurrentSale([...currentSale])
@@ -133,7 +139,7 @@ export const CartProvider = ({ children }:iCartProviderProps) => {
     }
 
     return(
-        <CartContext.Provider value={{ searchProducts, filteredProducts, calculator, addProductToCart,
+        <CartContext.Provider value={{ searchProducts, filteredProducts, setFilteredProducts, calculator, addProductToCart,
             currentSale, setCurrentSale, removeProductFromCart, removeAllProductsFromCart, counterAdd, counterSub}}>
             { children }
         </CartContext.Provider>
