@@ -43,6 +43,7 @@ interface iProducts{
     img: string;
     name: string;
     price: number;
+    count: number;
     [element: string | number]: any;    
 }
 
@@ -53,6 +54,29 @@ export const UserProvider = ({ children }:iUserProviderProps) => {
     const [loading, setLoading] = useState(false)
     const [user, setUser] = useState({} as iPerson)
     const [products, setProducts] = useState({} as iProducts)
+
+    useEffect(() => {
+        const token = localStorage.getItem("@BKSD")
+        
+        if (token) {
+            const getApi = async () => {
+                try {
+                    setLoading(true)                    
+                    const response = await api.get<iProducts>(`products`, {
+                        headers: {
+                            "Authorization": `Bearer ${token}`
+                        }
+                    })                    
+                    setProducts(response.data)
+                } catch (error) {
+                    console.log(error)
+                } finally {
+                    setLoading(false)
+                }
+            }
+            getApi()
+        }
+    }, [])
 
     const registerNewUser = async (formData: iLoginFormValues) => {
         try {
@@ -93,32 +117,7 @@ export const UserProvider = ({ children }:iUserProviderProps) => {
         localStorage.removeItem("@BKSD")
         toast.warn("Volte Logo.")
         navigate("/")
-    }
-
-    useEffect(() => {
-        const token = localStorage.getItem("@BKSD")
-        
-        if (token) {
-            const getApi = async () => {
-                try {
-                    setLoading(true)                    
-                    const response = await api.get<iProducts>(`products`, {
-                        headers: {
-                            "Authorization": `Bearer ${token}`
-                        }
-                    })                    
-                    setProducts(response.data)
-                } catch (error) {
-                    console.log(error)
-                } finally {
-                    setLoading(false)
-                }
-            }
-            getApi()
-        }
-    }, [])
-
-    
+    }   
 
     // const renderCards = async () => {
 
