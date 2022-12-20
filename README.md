@@ -21,10 +21,10 @@ URL Base:
 
  React-Router-Dom<br>
    https://yarnpkg.com/package/react-router-dom<br>
+    yarn add react-router-dom
 
  React-Icons<br>
    https://yarnpkg.com/package/react-icons<br>
-    yarn add react-router-dom
 
  React Hook Form<br>
    https://yarnpkg.com/package/react-hook-form<br>
