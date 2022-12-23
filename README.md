@@ -11,14 +11,31 @@ URL Base:
 
  Bibliotecas:
 
- Axios:
- https://yarnpkg.com/package/axios
+ Axios:<br>
+   https://yarnpkg.com/package/axios<br>
+    yarn add axios
 
- Styled-Components
- https://yarnpkg.com/package/styled-components
+ Styled-Components<br>
+   https://yarnpkg.com/package/styled-components<br>
+    yarn add styled-components
 
- React-Router-Dom
- https://yarnpkg.com/package/react-router-dom
+ React-Router-Dom<br>
+   https://yarnpkg.com/package/react-router-dom<br>
+    yarn add react-router-dom
 
- React-Icons
- https://yarnpkg.com/package/react-icons
+ React-Icons<br>
+   https://yarnpkg.com/package/react-icons<br>
+   yarn add react-icons
+
+ React Hook Form<br>
+   https://yarnpkg.com/package/react-hook-form<br>
+    yarn add react-hook-form
+
+ Yup<br>
+   https://yarnpkg.com/package/yup<br>
+      yarn add yup<br>
+      yarn add @hookform/resolvers yup
+
+ Toastify<br>
+   https://fkhadra.github.io/react-toastify/introduction<br>
+      yarn add react-toastify
