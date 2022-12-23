@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes } from "react"
+import { ButtonLarge, ButtonLargeGreen } from "./style"
 
 interface iButton extends ButtonHTMLAttributes<HTMLButtonElement> {    
     text: string
@@ -6,6 +7,12 @@ interface iButton extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Button = ({ type, text }: iButton) => {
     return(
-        <button type={type}>{text}</button>
+        <ButtonLarge type={type}>{text}</ButtonLarge>
+    )
+}
+
+export const ButtonGreen = ({ type, text }: iButton) => {
+    return(
+        <ButtonLargeGreen type={type}>{text}</ButtonLargeGreen>
     )
 }

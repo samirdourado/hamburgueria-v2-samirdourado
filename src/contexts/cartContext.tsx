@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { api } from "../services/api";
 import { UserContext } from "./userContext";
 
-interface iCartContext{
+export interface iCartContext{
     searchProducts: (evt: FormEvent<HTMLFormElement>) => void
     addProductToCart: (productData: iCartProducts) => void    
     removeProductFromCart: (productID: iCartProducts) => void
@@ -26,7 +26,7 @@ interface iCartProviderProps {
     children: React.ReactNode
 }
 
-interface iCartProducts{
+export interface iCartProducts{
     category: string;
     id: number;
     img: string;

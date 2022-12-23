@@ -25,6 +25,7 @@ URL Base:
 
  React-Icons<br>
    https://yarnpkg.com/package/react-icons<br>
+   yarn add react-icons
 
  React Hook Form<br>
    https://yarnpkg.com/package/react-hook-form<br>

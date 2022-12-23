@@ -13,11 +13,13 @@ export const GlobalStyle = createGlobalStyle`
 
     :root {
         --font-family-1: font-family: 'Inter', sans-serif;
-        --color-primary: #27AE60;        
+        --color-primary: #27AE60;
+        --color-primary50: #93D7AF;
         --color-secondary:#EB5757;
 
         --grey-600: #333333;
         --grey-300:  #828282;
+        --grey-400:  #BDBDBD;
         --grey-100: #E0E0E0;
         --grey-0:  #F5F5F5;
         --white: #FFFFFF;
@@ -27,10 +29,10 @@ export const GlobalStyle = createGlobalStyle`
         --success:  #168821;
         --information: #155BCB;
 
-        --title1: 1rem; /*16px;*/
+        --title1: 1.125rem; /*16px;*/
         --title2:  1rem; /*16px;*/
-        --title3: 1rem; /*16px;*/
-        --headline: 0.75rem; /*12px;*/
+        /*--title3: 1rem;*/ /*16px;*/
+        --headline: 0.875rem; /*14px;*/
         --headlineBold: 0.75rem; /*12px;*/
         --headlineItalic: 0.75rem; /*12px;*/
 
@@ -46,5 +48,19 @@ export const GlobalStyle = createGlobalStyle`
         font-weight: 600;
         font-size: var(--headline);
         color: var(--grey0);
+    }
+
+    .spinner {    
+    animation: loading 1.5s infinite
+    }
+
+    @keyframes loading {
+        0% {
+            transform: rotateY(0deg);
+        }
+
+        100% {
+            transform: rotateY(360deg);
+        }
     }
 `
